@@ -1,7 +1,12 @@
 import {Router} from 'express'
 import categoriesService from './Categories.service';
+import subcategoriesrouter from '../subcategories/subcategories.route';
 
 const categoriesrouter:Router = Router();
+
+
+categoriesrouter.use('/:categoryId/subcategories',subcategoriesrouter);
+
 
 categoriesrouter.route('/')
     .get(categoriesService.getAll)

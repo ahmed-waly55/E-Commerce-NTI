@@ -1,11 +1,11 @@
 import {Router} from 'express'
 import subcategoriesService from './subcategories.service';
 
-const subcategoriesrouter:Router = Router();
+const subcategoriesrouter:Router = Router({mergeParams: true});
 
 subcategoriesrouter.route('/')
-    .get(subcategoriesService.getAll)
-    .post(subcategoriesService.createOne)
+    .get(subcategoriesService.filterSubcategories,subcategoriesService.getAll)
+    .post(subcategoriesService.setCategoryId,subcategoriesService.createOne)
 
 
 subcategoriesrouter.route('/:id')

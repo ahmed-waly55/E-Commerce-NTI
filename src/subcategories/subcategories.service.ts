@@ -4,9 +4,23 @@ import subcategoriesSchema from './subcategories.schema';
 import { Subcategories } from './subcategories.interface';
 
 class SubcategoriesService{
-   
+setCategoryId(req:Request,res:Response,next:NextFunction){
+    if(req.params.categoryId && !req.body.categoryId)req.body.categoryId = req.params.category;
+    next();
+};
+
+filterSubcategories(req:Request,res:Response,next:NextFunction){
+    const filterData:any = {};
+    if(req.params.categoryId) filterData.categoryId = req.params.categoryId;
+    req.filterData = filterData;
+    next();
+
+}
+
 getAll = asyncHandler(async (req:Request,res:Response,next:NextFunction)=>{
-    const subcategories:Subcategories[] = await subcategoriesSchema.find();
+    let filterData:any = {};
+    if(req.filterData)filterData = req.filterData;
+    const subcategories:Subcategories[] = await subcategoriesSchema.find(filterData);
     res.status(200).json({data: subcategories});
 
 })
