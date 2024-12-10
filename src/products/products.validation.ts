@@ -90,7 +90,12 @@ class subCategoriesValidation{
             if(!subcategory) throw new Error('category not found');
             if (subcategory.category._id!.toString() !== req.body.category.toString()) throw new Error(`Subcategory not belong to this Category`);
             return true;
-        }),
+        }) .custom((val, { req }) => {
+            if (val && !req.body.category) {
+              throw new Error(req.__("subcategory_requires_category"));
+            }
+            return true;
+          }),
         validatorMiddleware]
 
     getOne = [

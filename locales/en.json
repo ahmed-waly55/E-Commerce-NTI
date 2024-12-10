@@ -24,5 +24,6 @@
     "check_user": "The user does not exist anymore...",
     "check_password_changed": "Your password has been updated since you logged in last time. Please log in again.",
     "check_active": "Your account is deactivated",
-    "allowed_to": "Privilege denied! You cannot perform this action"
+    "allowed_to": "Privilege denied! You cannot perform this action",
+    "subcategory_requires_category": "subcategory is requires category"
   }
