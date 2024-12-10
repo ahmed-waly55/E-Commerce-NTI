@@ -18,9 +18,9 @@ categoriesrouter.route('/')
 
 
 categoriesrouter.route('/:id')
-    .get(categoriesService.getOne)
-    .delete(categoriesService.deleteOne)
-    .put(categoriesService.updateOne)
+    .get(categoriesValidation.getOne,categoriesService.getOne)
+    .delete(categoriesValidation.deleteOne,categoriesService.deleteOne)
+    .put(categoriesValidation.updateOne,categoriesService.updateOne)
 
 
 export default categoriesrouter;

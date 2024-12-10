@@ -20,13 +20,19 @@ class CategoriesValidation{
         .optional()
         .isLength({min:2,max:50})
         .withMessage('invaled length')
-        .custom(async(val:string)=>{
+        .custom(async(val:string,{req})=>{
         const category = await categoriesSchema.findOne({name:val});
-        if(category)throw new Error('category is already in use');
+        if(category && category._id!.toString() !== req.params?.id.toString())throw new Error('category is already in use');
         return true;
     }),validatorMiddleware]
 
+    getOne = [
+        param('id').isMongoId().withMessage('invalid id'),
+        validatorMiddleware]
 
+    deleteOne = [
+        param('id').isMongoId().withMessage('invalid id'),
+        validatorMiddleware]
 
 }
 
