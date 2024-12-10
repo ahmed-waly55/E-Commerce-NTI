@@ -21,21 +21,21 @@ class RefactorService{
  getOne =  <modelType>(model:mongoose.Model<any>) => 
  asyncHandler(async (req:Request,res:Response,next:NextFunction)=>{
     const documents:modelType|null = await model.findById(req.params.id);
-    if(!documents)return next(new ApiErrors(`data not found`,400));
+    if(!documents)return next(new ApiErrors(`${req.__('not_found')}`,400));
     res.status(200).json({data: documents});
  
 })
  updateOne =  <modelType>(model:mongoose.Model<any>) => 
  asyncHandler(async (req:Request,res:Response,next:NextFunction)=>{
     const documents:modelType|null = await model.findByIdAndUpdate(req.params.id,req.body,{new: true});
-    if(!documents)return next(new ApiErrors(`data not found`,400));
+    if(!documents)return next(new ApiErrors(`${req.__('not_found')}`,400));
     res.status(200).json({data: documents});
 
 })
  deleteOne = <modelType>(model:mongoose.Model<any>) =>  
  asyncHandler(async (req:Request,res:Response,next:NextFunction)=>{
     const documents:modelType|null = await model.findByIdAndDelete(req.params.id);
-    if(!documents)return next(new ApiErrors(`data not found`,400));
+    if(!documents)return next(new ApiErrors(`${req.__('not_found')}`,400));
     res.status(204).json();
 
 })

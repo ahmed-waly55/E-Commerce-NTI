@@ -5,12 +5,12 @@ import validatorMiddleware from "../middlewares/validator.middleware";
 class CategoriesValidation{
     createOne = [body('name')
         .notEmpty()
-        .withMessage('category name is required')
+        .withMessage((val,{req})=>{req._('validation_field')})
         .isLength({min:2,max:50})
-        .withMessage('invaled length')
-        .custom(async(val:string)=>{
+        .withMessage((val,{req})=>{req._('validation_length_short')})
+        .custom(async(val:string,{req})=>{
         const category = await categoriesSchema.findOne({name:val});
-        if(category)throw new Error('category is already in use');
+        if(category)throw new Error(`${req._('not_found')}`);
         return true;
     }),validatorMiddleware]
 
