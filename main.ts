@@ -1,4 +1,5 @@
 import { Server } from 'http';
+import hpp from "hpp";
 import express from 'express'
 import dbConnection from './src/config/database';
 import categoriesService from './src/categories/Categories.service';
@@ -10,11 +11,13 @@ import i18n from 'i18n';
 import path from 'path';
 
 
+
 const app:express.Application = express();
 app.use(express.json({limit:'5kb'}));
 let server:Server;
 dbConnection();
 dotenv.config();
+app.use(hpp({whitelist:['price']}));
 i18n.configure({
   locales:['en','ar'],
   directory: path.join(__dirname,'locales'),

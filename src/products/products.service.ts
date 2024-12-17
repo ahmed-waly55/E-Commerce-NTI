@@ -8,7 +8,7 @@ import productsSchema from './products.schema';
 class ProductsService{
 
 
-getAll = refactorService.getAll<Products>(productsSchema);
+getAll = refactorService.getAll<Products>(productsSchema, 'products');
 
 createOne =refactorService.createOne<Products>(productsSchema);
 
