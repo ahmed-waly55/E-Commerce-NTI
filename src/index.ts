@@ -9,6 +9,7 @@ import productsrouter from './products/products.route';
 declare module 'express' {
     interface Request {
         filterData?: any;
+        files?: any;
     }
 }
 
