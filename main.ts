@@ -17,6 +17,7 @@ app.use(express.json({limit:'5kb'}));
 let server:Server;
 dbConnection();
 dotenv.config();
+app.use(express.static('uploads'));
 app.use(hpp({whitelist:['price']}));
 i18n.configure({
   locales:['en','ar'],
