@@ -1,6 +1,7 @@
 
 
 export interface Users extends Document {
+    isModified(arg0: string): unknown;
     readonly username: string;
     readonly email: string;
     readonly name: string;

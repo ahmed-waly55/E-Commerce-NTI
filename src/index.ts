@@ -1,32 +1,30 @@
 import express from 'express';
-import categoriesrouter from './categories/categories.route';
-import subcategoriesrouter from './subcategories/subcategories.route';
-import { error } from 'console';
+import categoriesRouter from "./categories/categories.route";
+import subcategoriesRoute from "./subcategories/subcategories.route";
 import globalErrors from './middlewares/errors.midleware';
-import ApiErrors from './utils/apiErrors';
-import productsrouter from './products/products.route';
-import usersrouter from './users/users.route';
+import ApiErrors from "./utils/apiErrors";
+import productsRoute from './products/products.route';
+import usersRoute from "./users/users.route";
+import authRoute from "./auth/auth.route";
 
-declare module 'express' {
+declare module "express" {
     interface Request {
         filterData?: any;
         files?: any;
+        user?: any;
     }
 }
 
-
-const mountRoutes = (app:express.Application)=> {
-
-    app.use('/api/v1/categories',categoriesrouter);
-    app.use('/api/v1/subcategories',subcategoriesrouter);
-    app.use('/api/v1/products',productsrouter);
-    app.use('/api/v1/users',usersrouter);
-    app.all('*',(req: express.Request, res: express.Response, next: express.NextFunction)=>{
+const mountRoutes = (app: express.Application) => {
+    app.use('/api/v1/categories', categoriesRouter);
+    app.use('/api/v1/subcategories', subcategoriesRoute);
+    app.use('/api/v1/products', productsRoute);
+    app.use('/api/v1/auth', authRoute);
+    app.use('/api/v1/users', usersRoute);
+    app.all('*', (req: express.Request, res: express.Response, next: express.NextFunction) => {
         next(new ApiErrors(`route ${req.originalUrl} not found`, 400));
     });
     app.use(globalErrors);
-
-
 }
 
 export default mountRoutes;

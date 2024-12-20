@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import {Users} from "./users.interface";
+import bcrypt from 'bcryptjs';
 
 
 const usersSchema = new mongoose.Schema<Users>({
@@ -17,5 +18,21 @@ const usersSchema = new mongoose.Schema<Users>({
     passwordResetCodeExpires: Date,
     passwordResetCodeVerify: Boolean
 },{timestamps:true});
+
+
+const imagesUrl = (document: Users) => {
+    if (document.image && document.image.startsWith('user')) document.image = `${process.env.BASE_URL}/images/users/${document.image}`;
+};
+
+usersSchema
+    .post('init', imagesUrl)
+    .post('save', imagesUrl);
+
+usersSchema.pre<Users>('save', async function (next) {
+    if (!this.isModified('password')) return next();
+    this.password = await bcrypt.hash(this.password, 13);
+    next();
+});
+
 
 export default mongoose.model<Users>('users',usersSchema);

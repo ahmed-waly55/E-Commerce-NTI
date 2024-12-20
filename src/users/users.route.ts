@@ -11,13 +11,16 @@ const usersrouter:Router = Router();
 
 usersrouter.route('/')
     .get(usersService.getAll)
-    .post(usersValidation.createOne,usersService.createOne)
+    .post(usersService.uploadImage,usersService.saveImage,usersValidation.createOne,usersService.createOne)
 
 
 usersrouter.route('/:id')
     .get(usersValidation.getOne,usersService.getOne)
     .delete(usersValidation.deleteOne,usersService.deleteOne)
-    .put(usersValidation.updateOne,usersService.updateOne)
+    .put(usersService.uploadImage,usersService.saveImage,usersValidation.updateOne,usersService.updateOne)
 
 
-export default usersrouter;
+    usersrouter.put('/:id/change-password', usersValidation.changePassword, usersService.changePassword)
+
+
+    export default usersrouter;

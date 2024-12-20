@@ -1,10 +1,10 @@
-import {body, param} from "express-validator";
-import usersSchema from "./users.schema";
+import {body} from "express-validator";
+import usersSchema from "../users/users.schema";
 import validatorMiddleware from "../middlewares/validator.middleware";
 
-class UsersValidation {
+class AuthValidation {
 
-    createOne = [
+    signup = [
         body('username').notEmpty().withMessage((val, {req}) => req.__('validation_field'))
             .isLength({min: 2, max: 50}).withMessage((val, {req}) => req.__('validation_length_short'))
             .custom(async (val: string, {req}) => {
@@ -34,36 +34,15 @@ class UsersValidation {
             }),
         validatorMiddleware
     ]
-    updateOne = [
-        param('id').isMongoId().withMessage((val, {req}) => req.__('invalid_id')),
-        body('name').optional()
-            .isLength({min: 2, max: 50}).withMessage((val, {req}) => req.__('validation_length_short')),
-        validatorMiddleware
-    ]
-    getOne = [
-        param('id').isMongoId().withMessage((val, {req}) => req.__('invalid_id')),
-        validatorMiddleware
-    ]
-    deleteOne = [
-        param('id').isMongoId().withMessage((val, {req}) => req.__('invalid_id')),
-        validatorMiddleware
-    ]
-    changePassword = [
-        param('id').isMongoId().withMessage((val, {req}) => req.__('invalid_id')),
+    login = [
+        body('username').notEmpty().withMessage((val, {req}) => req.__('validation_field')),
         body('password')
             .notEmpty().withMessage((val, {req}) => req.__('validation_field'))
             .isLength({min: 6, max: 20}).withMessage((val, {req}) => req.__('validation_length_password')),
-        body('confirmPassword')
-            .notEmpty().withMessage((val, {req}) => req.__('validation_field'))
-            .isLength({min: 6, max: 20}).withMessage((val, {req}) => req.__('validation_length_password'))
-            .custom((val: string, {req}) => {
-                if (val !== req.body.password) throw new Error(`${req.__('validation_password_match')}`);
-                return true;
-            }),
         validatorMiddleware
     ]
 }
 
-const usersValidation = new UsersValidation();
+const authValidation = new AuthValidation();
 
-export default usersValidation;
+export default authValidation;
