@@ -2,8 +2,6 @@ import { Server } from 'http';
 import hpp from "hpp";
 import express from 'express'
 import dbConnection from './src/config/database';
-import categoriesService from './src/categories/Categories.service';
-import categoriesrouter from './src/categories/categories.route';
 import dotenv from 'dotenv'
 import subcategoriesrouter from './src/subcategories/subcategories.route';
 import  mountRoutes from "./src/";

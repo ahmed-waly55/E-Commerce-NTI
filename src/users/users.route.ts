@@ -1,26 +1,21 @@
-import {Router} from 'express'
-import usersService from './users.service';
-import { body } from 'express-validator';
-import usersSchema from './users.schema';
-import usersValidation from './users.validation';
+import {Router} from 'express';
+import usersService from "./users.service";
+import usersValidation from "./users.validation";
+import authService from "../auth/auth.service";
 
-const usersrouter:Router = Router();
+const usersRouter: Router = Router();
 
+usersRouter.use(authService.protectedRoutes, authService.checkActive, authService.allowedTo('admin'));
 
-
-
-usersrouter.route('/')
+usersRouter.route('/')
     .get(usersService.getAll)
-    .post(usersService.uploadImage,usersService.saveImage,usersValidation.createOne,usersService.createOne)
+    .post(usersService.uploadImage, usersService.saveImage, usersValidation.createOne, usersService.createOne);
 
+usersRouter.route('/:id')
+    .get(usersValidation.getOne, usersService.getOne)
+    .put(usersService.uploadImage, usersService.saveImage, usersValidation.updateOne, usersService.updateOne)
+    .delete(usersValidation.deleteOne, usersService.deleteOne);
 
-usersrouter.route('/:id')
-    .get(usersValidation.getOne,usersService.getOne)
-    .delete(usersValidation.deleteOne,usersService.deleteOne)
-    .put(usersService.uploadImage,usersService.saveImage,usersValidation.updateOne,usersService.updateOne)
+usersRouter.put('/:id/change-password', usersValidation.changePassword, usersService.changePassword)
 
-
-    usersrouter.put('/:id/change-password', usersValidation.changePassword, usersService.changePassword)
-
-
-    export default usersrouter;
+export default usersRouter;
