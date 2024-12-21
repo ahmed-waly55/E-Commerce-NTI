@@ -7,6 +7,7 @@ import productsRoute from './products/products.route';
 import usersRoute from "./users/users.route";
 import authRoute from "./auth/auth.route";
 import profileRoute from './profile/profile.route';
+import googleRoute from './google/google.Route';
 
 declare module "express" {
     interface Request {
@@ -23,6 +24,8 @@ const mountRoutes = (app: express.Application) => {
     app.use('/api/v1/auth', authRoute);
     app.use('/api/v1/users', usersRoute);
     app.use('/api/v1/profile', profileRoute);
+    app.use('/auth/google', googleRoute);
+
 
     app.all('*', (req: express.Request, res: express.Response, next: express.NextFunction) => {
         next(new ApiErrors(`route ${req.originalUrl} not found`, 400));

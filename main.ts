@@ -7,11 +7,19 @@ import subcategoriesrouter from './src/subcategories/subcategories.route';
 import  mountRoutes from "./src/";
 import i18n from 'i18n';
 import path from 'path';
-
-
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 const app:express.Application = express();
 app.use(express.json({limit:'5kb'}));
+app.use(cors({
+  origin: ['http://localhost:4200'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true,
+}));
+app.use(cookieParser());
+
 let server:Server;
 dbConnection();
 dotenv.config();

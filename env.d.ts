@@ -12,5 +12,9 @@ declare namespace NodeJS {
         readonly EMAIL_PASSWORD :string;
         readonly EMAIL_HOST :string;
         readonly APP_NAME :string;
+        readonly GOOGLE_CLIENT_ID: string;
+        readonly GOOGLE_CLIENT_SECRET: string;
+        readonly GOOGLE_CALLBACK: string;
+
     }
 }
